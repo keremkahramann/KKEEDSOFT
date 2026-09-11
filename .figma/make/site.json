@@ -1,0 +1,10 @@
+{
+  "description": "This AI-powered desktop application integrates operational data across departments, enabling users to analyze production metrics, optimize processes, and make informed decisions.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
