@@ -1,0 +1,91 @@
+# VS Code REST Client ile kullanılabilir.
+# KKEEDSOFT_DEV_PASSWORD ortam değişkeni VS Code sürecinde de tanımlı olmalı.
+# İstekleri sırayla çalıştırın; cookie saklaması açık olmalı.
+@baseUrl = http://127.0.0.1:8080
+@username = developer
+@password = {{$processEnv KKEEDSOFT_DEV_PASSWORD}}
+
+### Sağlık kontrolü
+GET {{baseUrl}}/actuator/health
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Liste — page sıfırdan başlar, size en fazla 100
+GET {{baseUrl}}/api/work-orders?page=0&size=20
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Arama ve risk filtresi
+GET {{baseUrl}}/api/work-orders?q=PRT-1042&risk=critical&page=0&size=10
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Detay
+GET {{baseUrl}}/api/work-orders/WO-2026-1048
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Yazma isteklerinden önce token al; yanıtın JSESSIONID cookie'si korunmalı
+# @name csrf
+GET {{baseUrl}}/api/csrf
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Yerel örnek iş emri oluştur — ERP işlemi değildir
+# @name createOrder
+POST {{baseUrl}}/api/work-orders
+Authorization: Basic {{username}} {{password}}
+X-CSRF-TOKEN: {{csrf.response.body.$.token}}
+Content-Type: application/json
+
+{
+  "product": "TEST-001 Örnek ürün",
+  "customer": "Örnek müşteri",
+  "qty": 1000,
+  "deadline": "2026-10-15",
+  "machine": "TEST-01"
+}
+
+### Yeni oluşturulan kaydı oku
+GET {{baseUrl}}/api/work-orders/{{createOrder.response.body.$.id}}
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Plan alanlarını güncelle — bütün düzenlenebilir alanları gönder
+PUT {{baseUrl}}/api/work-orders/{{createOrder.response.body.$.id}}
+Authorization: Basic {{username}} {{password}}
+X-CSRF-TOKEN: {{csrf.response.body.$.token}}
+Content-Type: application/json
+
+{
+  "product": "TEST-001 Örnek ürün",
+  "customer": "Örnek müşteri",
+  "qty": 1200,
+  "deadline": "2026-10-20",
+  "machine": "TEST-02"
+}
+
+### İlerlemeyi güncelle — done toplam tamamlanan miktardır, artış değildir
+PATCH {{baseUrl}}/api/work-orders/{{createOrder.response.body.$.id}}/progress
+Authorization: Basic {{username}} {{password}}
+X-CSRF-TOKEN: {{csrf.response.body.$.token}}
+Content-Type: application/json
+
+{
+  "done": 250
+}
+
+### Hatalı miktar — 400 beklenir, kayıt değişmez
+PATCH {{baseUrl}}/api/work-orders/{{createOrder.response.body.$.id}}/progress
+Authorization: Basic {{username}} {{password}}
+X-CSRF-TOKEN: {{csrf.response.body.$.token}}
+Content-Type: application/json
+
+{
+  "done": 999999
+}
+
+### Bulunamayan kayıt — 404 beklenir
+GET {{baseUrl}}/api/work-orders/olmayan-kayit
+Authorization: Basic {{username}} {{password}}
+Accept: application/json

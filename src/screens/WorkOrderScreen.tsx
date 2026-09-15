@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { IconCheck, IconAlert, IconInfo } from '../components/Icons';
+import type { WorkOrder, WorkOrderOperation } from '../features/work-orders/types';
+import { createDemoWorkOrderAnalysis } from '../features/work-orders/demo-analysis';
+import WorkOrderAnalysisPanel from '../features/work-orders/WorkOrderAnalysisPanel';
 
-const ORDERS = [
+const ORDERS: WorkOrder[] = [
   { id: 'WO-2026-1048', product: 'PRT-1042 Muhafaza Kapağı', customer: 'Arçelik A.Ş.', qty: 1500000, done: 938400, status: 'in_progress', risk: 'critical', deadline: '10.09.2026', machine: 'INJ-01 / PRESS-07' },
   { id: 'WO-2026-1031', product: 'MTL-0887 Bağlantı Braketi', customer: 'Ford Otosan', qty: 84000, done: 37000, status: 'in_progress', risk: 'warning', deadline: '12.09.2026', machine: 'PRESS-01' },
   { id: 'WO-2026-1055', product: 'MTL-1120 Şasi Profili', customer: 'Tofaş', qty: 25000, done: 9500, status: 'in_progress', risk: 'warning', deadline: '15.09.2026', machine: 'PRESS-02' },
@@ -9,7 +12,7 @@ const ORDERS = [
   { id: 'WO-2026-1042', product: 'MTL-1050 Flanş Parçası', customer: 'Bosch TR', qty: 60000, done: 52000, status: 'in_progress', risk: 'none', deadline: '25.09.2026', machine: 'PRESS-06' },
 ];
 
-const OPERATIONS = [
+const OPERATIONS: WorkOrderOperation[] = [
   { seq: 1, name: 'Hammadde hazırlama', resource: 'Depo', plan: '4 saat', actual: '4 saat', status: 'done' },
   { seq: 2, name: 'Kalıp takma ve ayar', resource: 'PRESS-07', plan: '2 saat', actual: '2,5 saat', status: 'done' },
   { seq: 3, name: 'Plastik enjeksiyon', resource: 'INJ-01', plan: '38 saat', actual: '22,6 saat', status: 'in_progress' },
@@ -18,10 +21,21 @@ const OPERATIONS = [
   { seq: 6, name: 'Paketleme & sevkiyat', resource: 'Sevkiyat', plan: '2 saat', actual: '—', status: 'pending' },
 ];
 
+type WorkOrderTab = 'detail' | 'ops' | 'quality' | 'cost' | 'audit';
+
+const TABS: { id: WorkOrderTab; label: string }[] = [
+  { id: 'detail', label: 'Genel' },
+  { id: 'ops', label: 'Operasyon Rotası' },
+  { id: 'quality', label: 'Kalite' },
+  { id: 'cost', label: 'Maliyet' },
+  { id: 'audit', label: 'Geçmiş' },
+];
+
 export default function WorkOrderScreen() {
-  const [selected, setSelected] = useState(ORDERS[0]);
-  const [tab, setTab] = useState<'detail' | 'ops' | 'quality' | 'cost' | 'audit'>('detail');
+  const [selected, setSelected] = useState<WorkOrder>(ORDERS[0]);
+  const [tab, setTab] = useState<WorkOrderTab>('detail');
   const pct = Math.round((selected.done / selected.qty) * 100);
+  const analysis = createDemoWorkOrderAnalysis(selected);
 
   return (
     <div className="flex h-full overflow-hidden">
@@ -104,8 +118,8 @@ export default function WorkOrderScreen() {
 
         {/* Tabs */}
         <div className="flex gap-1 px-5 py-2 flex-shrink-0" style={{ background: '#F4F6F8', borderBottom: '1px solid #D8DEE6' }}>
-          {[['detail', 'Genel'], ['ops', 'Operasyon Rotası'], ['quality', 'Kalite'], ['cost', 'Maliyet'], ['audit', 'Geçmiş']].map(([id, label]) => (
-            <button key={id} onClick={() => setTab(id as any)}
+          {TABS.map(({ id, label }) => (
+            <button key={id} onClick={() => setTab(id)}
               className="px-3 py-1.5 rounded text-xs font-medium"
               style={{ background: tab === id ? '#fff' : 'transparent', color: tab === id ? '#17212B' : '#66717F', border: tab === id ? '1px solid #D8DEE6' : '1px solid transparent' }}>
               {label}
@@ -148,6 +162,8 @@ export default function WorkOrderScreen() {
           )}
 
           {tab === 'detail' && (
+            <div className="space-y-4">
+            <WorkOrderAnalysisPanel analysis={analysis} isDemo={true} />
             <div className="grid grid-cols-2 gap-4">
               {[
                 { label: 'Sipariş Miktarı', value: selected.qty.toLocaleString('tr-TR') + ' adet' },
@@ -164,6 +180,7 @@ export default function WorkOrderScreen() {
                   <div className="text-sm font-medium font-mono" style={{ color: '#17212B' }}>{value}</div>
                 </div>
               ))}
+            </div>
             </div>
           )}
 
