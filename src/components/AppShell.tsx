@@ -72,8 +72,8 @@ export default function AppShell({ currentScreen, onNavigate, children, serverSt
           </div>
           {!collapsed && (
             <div className="overflow-hidden">
-              <div className="text-white font-bold text-xs tracking-widest whitespace-nowrap" style={{ letterSpacing: '0.1em' }}>KAHRAMAN TWIN</div>
-              <div className="text-xs whitespace-nowrap" style={{ color: '#4D6175', fontSize: 10, letterSpacing: '0.06em' }}>Digital Twin v2.4.1</div>
+              <div className="text-white font-bold text-xs tracking-widest whitespace-nowrap" style={{ letterSpacing: '0.1em' }}>KKEEDSOFT</div>
+              <div className="text-xs whitespace-nowrap" style={{ color: '#4D6175', fontSize: 10, letterSpacing: '0.06em' }}>Kahraman Twin v2.4.1</div>
             </div>
           )}
         </div>

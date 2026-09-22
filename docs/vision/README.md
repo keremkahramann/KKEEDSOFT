@@ -2,7 +2,7 @@
 
 KKEEDSOFT, Kahraman Kalıp'ta üretim ve iş süreçleriyle ilgili bilgileri bir araya getirerek karar hazırlamayı kolaylaştırmayı amaçlıyor. Bu bölüm, ürünün neden geliştirildiğini, kimlere yardımcı olacağını ve ilk sürümün nereden başlayabileceğini anlatır.
 
-Belgelerin kaynağı [KKEEDSOFT proje bağlamı](../../KKEEDSOFT-Codex-Context.md) dosyasıdır. Burada anlatılan hedefler, tamamlanmış özellikler veya onaylanmış bir teslimat listesi olarak okunmamalıdır.
+Belgeler [KKEEDSOFT proje bağlamı](../../KKEEDSOFT-Codex-Context.md), mevcut kod ve 21 Eylül 2026'ya kadar yapılan görüşmelerle güncellenmiştir. Hedefler tamamlanmış özellikler olarak okunmamalıdır. Tüm teknik belgeler için [dokümantasyon dizinine](../README.md) bakın.
 
 ## Nereden başlamalı?
 
@@ -26,8 +26,13 @@ Belgelerin kaynağı [KKEEDSOFT proje bağlamı](../../KKEEDSOFT-Codex-Context.m
 | `src/` | React, TypeScript, Vite ve Tailwind ile hazırlanmış arayüz. `src/App.tsx` içinde sohbet, planlama, makineler, kalite, maliyet ve onay gibi ekranlara geçişler var. |
 | `src/screens/` | Dashboard göstergeleri kod içinde tanımlı; giriş ve sohbet gibi ekranlarda zamanlayıcıyla oluşturulan örnek davranışlar bulunuyor. Bu göstergeler şirketin gerçek performans ölçümleri değil. |
 | `src-tauri/` | Tauri masaüstü başlangıcı var. Bu, çevrimdışı veri ve model işlevlerinin tamamlandığını göstermiyor. |
-| `backend/` | Spring Boot başlangıç uygulaması ve PostgreSQL dahil bağımlılıklar var. Çalışan ERP veya makine entegrasyonu doğrulanmış değil. |
+| `backend/` | Java 21 / Spring Boot 4.1.1; `local` profilde bellek içi iş emri API'si, doğrulama, güvenlik ve testler var. PostgreSQL bağımlılıkları mevcut; hedef kaynak MySQL bağlantısı ve periyodik aktarım henüz yok. |
+| `src/lib/spreadsheetAnalysis.ts` | XLSX personel/operasyon ortalamaları istemcide hesaplanıyor. Backend'de artık yerel örnek veriyle çalışan sürümlü performans API'si var; frontend henüz ona bağlanmadı. |
 
 Bu belgelerde ürün adı KKEEDSOFT olarak kullanılıyor. Kodda kalan önceki adlar, ürün adı hakkında yeni bir karar olarak yorumlanmıyor.
 
-Bu aşamada yalnızca ürün vizyonu ele alınıyor. Mimari, entegrasyon sözleşmeleri, veri sözlüğü ve teknik karar kayıtları sonraki bölümlerin konusu; bu teslimatta o klasörler oluşturulmadı.
+## Son görüşmelerin teknik yönü
+
+İlk entegrasyon odağı personel ve operasyon performansıdır. Kaynak on-premise MySQL'den periyodik veri alınacak; merkezi Spring Boot uygulaması LAN içindeki Tauri EXE'lerine sonuç sunacak. İnternet, normal çalışma için gerekmeyecek. Raporlama deposu olarak ayrı MySQL öneriliyor; fiziksel yerleşim ve kaynak şeması henüz kesinleşmedi.
+
+[Merkezi mimari](../architecture/merkezi-spring-boot.md), [veri aktarımı ve performans](../architecture/veri-aktarimi-ve-performans.md) ile [LAN işletimi](../operations/lan-dagitim-ve-isletim.md) bu yönü ayrıntılandırır. İş emri gecikmesi ve makine duruşu senaryoları sonraki genişlemeler olarak korunur.

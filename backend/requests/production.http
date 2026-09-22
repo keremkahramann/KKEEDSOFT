@@ -1,0 +1,14 @@
+# Yerel geliştirme verisi; gerçek kaynak aktarımı değildir.
+@baseUrl = http://127.0.0.1:8080
+@username = developer
+@password = {{$processEnv KKEEDSOFT_DEV_PASSWORD}}
+
+### Ölçüm listesi (tarihler dahil, Europe/Istanbul)
+GET {{baseUrl}}/api/v1/production/measurements?from=2026-09-21&to=2026-09-21&page=0&size=20
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Personel ve operasyon ölçümleri
+GET {{baseUrl}}/api/v1/production/measurements?from=2026-09-21&to=2026-09-21&employeeId=EMP-001&operationId=OP-001
+Authorization: Basic {{username}} {{password}}
+Accept: application/json

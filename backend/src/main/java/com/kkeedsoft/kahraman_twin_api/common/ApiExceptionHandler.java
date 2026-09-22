@@ -14,6 +14,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @RestControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    ProblemDetail resourceNotFound(ResourceNotFoundException exception) {
+        return problem(HttpStatus.NOT_FOUND, "Kayıt bulunamadı", exception.getMessage());
+    }
+
     @ExceptionHandler(WorkOrderNotFoundException.class)
     ProblemDetail notFound(WorkOrderNotFoundException exception) {
         return problem(HttpStatus.NOT_FOUND, "İş emri bulunamadı", exception.getMessage());

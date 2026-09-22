@@ -1,0 +1,19 @@
+# Yerel geliştirme verisi; gerçek kaynak aktarımı değildir.
+@baseUrl = http://127.0.0.1:8080
+@username = developer
+@password = {{$processEnv KKEEDSOFT_DEV_PASSWORD}}
+
+### Operasyon listesi
+GET {{baseUrl}}/api/v1/operations?page=0&size=20
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Kod veya ad araması
+GET {{baseUrl}}/api/v1/operations?q=KES-01
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Operasyon detayı
+GET {{baseUrl}}/api/v1/operations/OP-001
+Authorization: Basic {{username}} {{password}}
+Accept: application/json

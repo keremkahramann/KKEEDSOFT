@@ -6,11 +6,11 @@ Bağlamda üretim planlama, kapasite, sipariş gecikmeleri, makine duruşları, 
 
 Beklenen kaynaklar Dinamo ERP, üretim makineleri ve şirket dokümanları. Hangi bilginin nerede tutulduğu ve çelişki olduğunda hangi kaydın esas alınacağı şirket içinde doğrulanmalı. Makine markasının bilinmesi, gerekli sinyallere erişilebildiği anlamına gelmiyor.
 
-## İlk sürüm için öneri
+## İlk entegrasyon odağı
 
-**Öneri:** İlk kullanılabilir sürüm (MVP), dar bir kullanıcı grubunun gerçek bir sorununu baştan sona ele alsın. Önce tek senaryo seçilsin; ikinci senaryo ancak verisi hazırsa ve değerlendirme yükü yönetilebiliyorsa eklensin.
+Son görüşmelerle ilk veri entegrasyonu odağı **personel ve operasyon performansı** olarak güncellendi. XLSX prototipindeki analizler merkezi Spring Boot API'sine ve periyodik MySQL aktarımına taşınacak. Pilot kullanıcı grubu ve süreç sahibi henüz belirlenmedi.
 
-**Varsayım:** Sipariş veya iş emri gecikme analizi iyi bir başlangıç olabilir. Bunun için ilgili kayıtların eşleştirilebildiğini ve bir süreç sahibinin sonucu kontrol edebildiğini görmemiz gerekiyor. İlk senaryo henüz seçilmedi.
+Beklenen ilk sonuçlar: ortalama performansı en yüksek ve en düşük 5 personel; yalnız pozitif P ölçümleriyle ortalama performansı en düşük 5 operasyon. Beş uygun grup yoksa mevcut sonuçlar gösterilir. Sipariş/iş emri gecikme analizi sonraki genişleme adayıdır; mevcut yerel iş emri API'si geliştirme çalışması olarak korunur.
 
 Seçim sırasında şu sorulara bakılmalı:
 
@@ -25,11 +25,11 @@ Seçim sırasında şu sorulara bakılmalı:
 | Alan | İlk sürüm önerisi |
 | --- | --- |
 | Kullanıcılar | Seçilen süreci bilen sınırlı bir grup. Departman ve kişi sayısı henüz belirlenmedi. |
-| Veriler | Senaryo için gerekli, kaynağı ve güncelliği bilinen kayıtlar. |
-| Analiz | Bulgular, dayanaklar, eksikler ve hesaplanabilen alternatifler. |
-| Çıktı | Kullanıcının inceleyebileceği analiz ve öneri. Aksiyon taslağı kapsama alınırsa kullanıcı onayına sunulması. |
+| Veriler | On-premise MySQL üretim ölçümleri, personel/operasyon kimlikleri ve P puanının tanımı. |
+| Analiz | Personel ve operasyon bazında doğrulanmış ortalamalar ve ilk 5 sıralamaları. |
+| Çıktı | Ad/kod, ortalama puan, ölçüm sayısı, analiz dönemi ve son başarılı veri aktarımı. |
 | Dış sistem erişimi | İlk pilotta salt okunur erişim. ERP'ye yazma ve operasyonel değişiklikler daha sonra değerlendirilir. |
-| Kesinti davranışı | Bağlantı ve veri güncelliğinin gösterilmesi. Yerel okuma veya taslak saklama kapsamı kullanıcı ihtiyacına göre seçilir. |
+| Kesinti davranışı | İnternet olmadan LAN kullanımı; kaynak kesilirse merkezdeki son başarılı verinin yaşı gösterilir. Merkez kesilirse yerel okuma kapsamı ayrıca seçilir. |
 
 Bu tablo onaylanmış bir teslimat listesi değildir. Pilotun kesin kapsamı, veri incelemesi ve kullanıcı görüşmeleri sonrasında belirlenmeli.
 
@@ -46,6 +46,6 @@ Onaysız kritik işlem yapmak ve makine emniyetini yönetmek, yalnızca ilk sür
 
 ## Teknoloji seçimlerinin durumu
 
-Kodda React arayüzü, Tauri masaüstü başlangıcı ve Spring Boot sunucu başlangıcı var. Bunlar mevcut geliştirme durumunu gösteriyor. Bağlamda masaüstü kabuğunun nihai seçimi ve Spring Boot'un ilk sürümde zorunlu olup olmayacağı hâlâ açık konu olarak geçiyor.
+Teknik yön React + Tauri istemci ve merkezi Spring Boot backend'dir. Aynı backend içinde REST request–response akışı ile kullanıcı isteği beklemeyen zamanlanmış aktarım bulunur. Backend MySQL'in içinde değil, sunucuda ayrı süreç olarak çalışır. İşletim sistemi servisi backend'i açılışta başlatır; `@Scheduled` çalışan backend'de aktarımı tetikler.
 
-PostgreSQL, SQLite, Python ve yerel model araçları gibi öneriler bu belgelerle kesinleştirilmiyor. Teknik kararlar gerektiğinde gerekçeleriyle ayrı karar kayıtlarına taşınmalı; bu aşamada ilgili klasörler açılmıyor.
+Kaynak MySQL kullanıcı tarafından belirtildi. Raporlama için ayrı MySQL öneriliyor; kodda kalan PostgreSQL bağımlılıkları henüz uyarlanmadı. SQLite önbelleği, Python veya yerel model ilk veri analizinin ön koşulu değil. Ayrıntılar [merkezi mimaride](../architecture/merkezi-spring-boot.md) ve [veri kurallarında](../architecture/veri-aktarimi-ve-performans.md).

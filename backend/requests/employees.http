@@ -1,0 +1,19 @@
+# Yerel geliştirme verisi; gerçek kaynak aktarımı değildir.
+@baseUrl = http://127.0.0.1:8080
+@username = developer
+@password = {{$processEnv KKEEDSOFT_DEV_PASSWORD}}
+
+### Personel listesi
+GET {{baseUrl}}/api/v1/employees?page=0&size=20
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Ada göre arama
+GET {{baseUrl}}/api/v1/employees?q=Ayşe
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Personel detayı
+GET {{baseUrl}}/api/v1/employees/EMP-001
+Authorization: Basic {{username}} {{password}}
+Accept: application/json

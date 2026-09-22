@@ -1,6 +1,7 @@
-package com.kkeedsoft.kahraman_twin_api.workorder;
+package com.kkeedsoft.kahraman_twin_api.workorder.controller;
 
 import java.net.URI;
+import com.kkeedsoft.kahraman_twin_api.workorder.WorkOrderService;
 import jakarta.validation.Valid;
 import com.kkeedsoft.kahraman_twin_api.workorder.dto.*;
 import org.springframework.context.annotation.Profile;
@@ -8,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/work-orders")
+@RequestMapping({"/api/v1/work-orders", "/api/work-orders"})
 @Profile("local")
 public class WorkOrderController {
     private final WorkOrderService service;
@@ -30,7 +31,7 @@ public class WorkOrderController {
     @PostMapping
     public ResponseEntity<WorkOrderResponse> create(@Valid @RequestBody CreateWorkOrderRequest request) {
         var response = service.create(request);
-        return ResponseEntity.created(URI.create("/api/work-orders/" + response.id())).body(response);
+        return ResponseEntity.created(URI.create("/api/v1/work-orders/" + response.id())).body(response);
     }
 
     @PutMapping("/{id}")

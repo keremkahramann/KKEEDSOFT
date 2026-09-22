@@ -1,0 +1,14 @@
+# Yerel geliştirme verisi; gerçek kaynak aktarımı değildir.
+@baseUrl = http://127.0.0.1:8080
+@username = developer
+@password = {{$processEnv KKEEDSOFT_DEV_PASSWORD}}
+
+### CSRF token; yazma isteğinde cookie ve token birlikte kullanılmalı
+GET {{baseUrl}}/api/v1/auth/csrf
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Servis sağlığı; verilerin güncel olduğunu tek başına göstermez
+GET {{baseUrl}}/actuator/health
+Authorization: Basic {{username}} {{password}}
+Accept: application/json

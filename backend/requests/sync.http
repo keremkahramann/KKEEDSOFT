@@ -1,0 +1,9 @@
+# Yerel geliştirme verisi; gerçek kaynak aktarımı değildir.
+@baseUrl = http://127.0.0.1:8080
+@username = developer
+@password = {{$processEnv KKEEDSOFT_DEV_PASSWORD}}
+
+### Aktarım durumu: NOT_CONFIGURED; başarılı aktarım zamanı yok
+GET {{baseUrl}}/api/v1/sync/status
+Authorization: Basic {{username}} {{password}}
+Accept: application/json

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SpreadsheetFilter from '../components/SpreadsheetFilter';
 import { IconCheck, IconAlert, IconInfo, IconChevronRight } from '../components/Icons';
 
 const STEPS = [
@@ -69,7 +70,7 @@ export default function ProblemScreen() {
 
   return (
     <div className="flex h-full overflow-hidden">
-      <div className="flex-1 overflow-y-auto">
+      <div className="min-w-0 flex-1 overflow-y-auto">
         {/* Header */}
         <div className="px-5 py-3 flex items-start gap-3" style={{ background: '#fff', borderBottom: '1px solid #D8DEE6' }}>
           <div className="flex-1">
@@ -119,6 +120,10 @@ export default function ProblemScreen() {
               </React.Fragment>
             );
           })}
+        </div>
+
+        <div className="px-5 pt-5">
+          <SpreadsheetFilter />
         </div>
 
         <div className="p-5 grid gap-5" style={{ gridTemplateColumns: '1fr 340px' }}>

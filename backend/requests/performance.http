@@ -1,0 +1,34 @@
+# Yerel geliştirme verisi; gerçek kaynak aktarımı değildir.
+@baseUrl = http://127.0.0.1:8080
+@username = developer
+@password = {{$processEnv KKEEDSOFT_DEV_PASSWORD}}
+
+### En yüksek 5 personel
+GET {{baseUrl}}/api/v1/performance/employees/top?from=2026-09-21&to=2026-09-21&limit=5
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### En düşük 5 personel
+GET {{baseUrl}}/api/v1/performance/employees/bottom?from=2026-09-21&to=2026-09-21&limit=5
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Yalnız P > 0 ölçümlerden en düşük 5 operasyon
+GET {{baseUrl}}/api/v1/performance/operations/bottom?from=2026-09-21&to=2026-09-21&limit=5
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Bir operasyonun hesabını kontrol et (100; 1 geçerli, 2 pozitif olmayan ölçüm)
+GET {{baseUrl}}/api/v1/performance/operations/bottom?from=2026-09-21&to=2026-09-21&operationId=OP-001
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Boş dönem
+GET {{baseUrl}}/api/v1/performance/employees/top?from=2026-01-01&to=2026-01-01
+Authorization: Basic {{username}} {{password}}
+Accept: application/json
+
+### Geçersiz dönem: 400 beklenir
+GET {{baseUrl}}/api/v1/performance/employees/top?from=2026-09-22&to=2026-09-21
+Authorization: Basic {{username}} {{password}}
+Accept: application/json

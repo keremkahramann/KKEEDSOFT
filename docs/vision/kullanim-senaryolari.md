@@ -1,6 +1,16 @@
 # Kullanım senaryoları
 
-Aşağıdaki örnekler hedeflenen ürün davranışını anlatıyor. Mevcut uygulamada tamamlanmış işlevler değiller. İlk iki örnek MVP adayı; son örnek ise daha sonraki onaylı işlem akışını gösteriyor.
+Aşağıdaki örnekler hedeflenen ürün davranışını anlatıyor. İlk merkezi entegrasyon senaryosu personel/operasyon performansıdır; diğerleri sonraki genişlemelerdir. XLSX analizi prototipte var; merkezi MySQL akışı henüz tamamlanmadı.
+
+## Personel ve operasyon performansı nasıl karşılaştırılır?
+
+1. Merkezdeki görev kaynak MySQL'den dönemsel kayıtları alır; kullanıcı bağlı olmasa da çalışır.
+2. Kullanıcı EXE'de dönem seçer; istek LAN üzerinden Spring Boot API'sine gider.
+3. API kullanıcının veri kapsamını doğrular ve son tutarlı aktarım verisinden hesaplar.
+4. En yüksek/en düşük 5 personel ile yalnız P > 0 ölçümlerden en düşük 5 operasyon listelenir. Ölçüm sayısı ve veri güncelliği gösterilir.
+5. Kaynak kesintisinde son başarılı veri açıkça eski olarak işaretlenir. Normal ekran yenilemesi kaynak aktarımını başlatmaz.
+
+**Değerlendirme:** Kaynak örnekleriyle beklenen ortalamalar karşılaştırılır; sıfır/negatif, eksik kimlik, bozuk puan ve beşten az grup durumları denenir. Kurallar [performans belgesinde](../architecture/veri-aktarimi-ve-performans.md).
 
 ## Sipariş neden gecikiyor?
 

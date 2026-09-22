@@ -22,6 +22,8 @@ Plansız duruş, teslim tarihi sapması ve hurda/yeniden işleme oranları uzun 
 
 ## Pilot değerlendirmesi
 
+İlk merkezi performans pilotunda kaynakla kontrol edilmiş personel/operasyon örnekleri kullanılmalı. Aynı veri sürümü ve tarih aralığında iki EXE'nin aynı ilk 5 sonuçlarını görmesi, operasyon hesabında `P <= 0` ölçümlerin ortalamadan önce dışlanması, tekrar aktarımda kayıt çoğalmaması ve kaynak kesintisinde veri yaşının görünmesi kabul kontrolleridir. Kesin toleranslar ve örneklem süreç sahibiyle belirlenmeli.
+
 **Öneri:** Hem verisi yeterli hem de eksik, eski veya çelişkili kayıt içeren örnekler seçilsin. Süreç sahibi bulguları kontrol etsin. Kaynağa ulaşılabilmesi, hesapların yeniden yapılabilmesi, yetkisiz verinin gösterilmemesi ve bağlantı kesintisinin doğru açıklanması değerlendirmeye alınsın.
 
 Salt okunur bir pilotta kritik işlem yapılmaması, gelecekteki onay ve yazma işlevlerinin doğrulandığı anlamına gelmez. Dış sistemlere işlem yapma yeteneği eklenirse ayrıca değerlendirilmelidir.
@@ -40,15 +42,16 @@ Salt okunur bir pilotta kritik işlem yapılmaması, gelecekteki onay ve yazma i
 
 | Konu | Öğrenilmesi veya kararlaştırılması gerekenler |
 | --- | --- |
-| İlk sürüm | İlk senaryo, pilot kullanıcılar, ürün sahibi ve süreç sahibi. |
+| İlk sürüm | İlk entegrasyon odağı personel/operasyon performansı; pilot kullanıcılar, ürün sahibi ve süreç sahibi bekleniyor. |
+| MySQL ve performans | Sürüm, tablo/view şeması, kaynak kayıt ID'leri, E–F karşılıkları, P formülü/ölçeği, sıfır/negatif anlamı ve güncellenme/silme takibi. |
 | Departmanlar | Gerçek organizasyon, öncelikli ihtiyaçlar ve veri sahipleri. |
 | Dinamo ERP | Sürüm, desteklenen entegrasyon yöntemi, erişilebilir alanlar ve hangi bilginin esas kaynağı olduğu. |
 | Makineler | Kontrolör, protokol, sinyal ve sensör envanteri; üretici ve güvenlik sınırları. |
-| Ağ ve donanım | Üretim ağı ile kurumsal ağın ayrımı, sunucu ve GPU kapasitesi. |
+| Ağ ve donanım | LAN adresleme/sertifika, üretim ağı ayrımı, merkez işletim sistemi ve kapasitesi; aynı veya ayrı sunucu yerleşimi. GPU ilk sayısal analiz için ön koşul değil. |
 | Çevrimdışı kullanım | Minimum işlevler, yerelde tutulabilecek veriler ve yeniden bağlantı davranışı. |
-| Veri yönetimi | Kabul edilebilir gecikme, saklama ve silme süreleri. |
-| Teknoloji | Masaüstü kabuğunun nihai seçimi, Spring Boot'un ilk sürümdeki rolü ve kullanılacak yerel model. |
+| Veri yönetimi | Kesin aktarım aralığı, saklama/silme süreleri, yedek sorumluları, veri kaybı ve toparlanma sınırları. |
+| Teknoloji | Spring Boot + React/Tauri yönü belirlendi. Raporlama MySQL kurulumu/sürümü, mevcut PostgreSQL bağımlılıklarının uyarlanması ve servis dağıtım yöntemi açık. Yerel model sonraki aşama. |
 | Yetki ve onay | Kimlerin hangi veriyi göreceği, taslakları ve uygulamayı kimlerin onaylayacağı. |
 | Başarı hedefleri | Başlangıç ölçümleri, pilot örneklemi, değerlendirme dönemi ve kabul eşikleri. |
 
-Yanıtlar geldikçe ilgili varsayımlar ve kapsam önerileri güncellenmeli. Teknik bir karar alındığında gerekçesinin ayrı bir karar kaydında tutulması önerilir; o dokümantasyon bölümü kullanıcı talebiyle daha sonra açılacaktır.
+Yanıtlar geldikçe [merkezi mimari](../architecture/merkezi-spring-boot.md), [veri sözleşmesi](../architecture/veri-aktarimi-ve-performans.md) ve [işletim planı](../operations/lan-dagitim-ve-isletim.md) güncellenmeli. Bu belgelerde hedef ve mevcut uygulama durumu ayrı tutulur.
